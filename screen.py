@@ -1,5 +1,11 @@
 import os
 import copy
+import builtins
+
+def print(*args, **kwargs):
+    builtins.print("\033[92m", end="")  # ANSI code for green
+    builtins.print(*args, **kwargs)
+    builtins.print("\033[0m", end="")  # Reset color
 
 TETRIS = """
  ████████╗███████╗████████╗██████╗ ██╗███████╗
@@ -15,14 +21,26 @@ def draw_frame(game):
 
     frame = copy.deepcopy(game.matrix)
     border_char = "▓"
-    empty_cell = "·"
+    empty_cell = " "
     block_char = "■"
+    prediction_char = "+"
 
     # Add tetromino to frame
     if game.player is not None:
         for point in game.player.shape:
+            # Draw prediction line
+            temp_player = copy.deepcopy(game.player)
+            moved_down = True
+            while moved_down:
+                moved_down = temp_player.move_down(game)
+
+            for point in temp_player.shape:
+                frame[point[1]][point[0]] = prediction_char
+
+        for point in game.player.shape:
             if point[1] >= 0:  # Tetrominos spawn above game matrix so don't render them until they enter the matrix
                 frame[point[1]][point[0]] = block_char
+        
 
     # Title and score
     print(TETRIS)

@@ -107,17 +107,9 @@ class Tetromino:
 
         if self.can_move_to(game.matrix, new_shape):
             self.shape = new_shape
+            return True
         else:
-            is_game_over = False
-            for point in self.shape:
-                if point[1] < 0:
-                    is_game_over = True
-                    break
-                
-            if is_game_over:
-                game.game_over()
-            else:    
-                game.new_tetromino()
+            return False
 
 
     def move_right(self, game_matrix):

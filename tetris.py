@@ -77,7 +77,18 @@ class Game:
                 self.update_speed()
         
         if time.time() - self.last_move_down_time >= self.speed:
-            self.player.move_down(self)
+            moved_down = self.player.move_down(self)
+            if not moved_down:
+                is_game_over = False
+                for point in self.player.shape:
+                    if point[1] < 0:
+                        is_game_over = True
+                        break
+                        
+                if is_game_over:
+                    self.game_over()
+                else:    
+                    self.new_tetromino()
             self.last_move_down_time = time.time()
             
         draw_frame(self)
