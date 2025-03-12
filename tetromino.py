@@ -34,16 +34,16 @@ class Tetromino:
         self.shape.append([2, -1])
 
     def _tetromino_L(self):
+        self.shape.append([0, -1])
         self.shape.append([0, -2])
-        self.shape.append([0, -1])
-        self.shape.append([0, -1])
-        self.shape.append([1, -1])
+        self.shape.append([0,  0])
+        self.shape.append([1,  0])
 
     def _tetromino_L_2(self):
+        self.shape.append([1, -1])
         self.shape.append([1, -2])
-        self.shape.append([1, -1])
-        self.shape.append([1, -1])
-        self.shape.append([0, -1])
+        self.shape.append([1,  0])
+        self.shape.append([0,  0]) 
 
     def _tetromino_T(self):
         self.shape.append([1, -2])

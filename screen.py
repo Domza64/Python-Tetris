@@ -1,44 +1,64 @@
 import os
 import copy
 
+TETRIS = """
+ ████████╗███████╗████████╗██████╗ ██╗███████╗
+ ╚══██╔══╝██╔════╝╚══██╔══╝██╔══██╗██║██╔════╝
+    ██║   █████╗     ██║   ██████╔╝██║███████╗
+    ██║   ██╔══╝     ██║   ██╔══██╗██║╚════██║
+    ██║   ███████╗   ██║   ██║  ██║██║███████║
+    ╚═╝   ╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝╚══════╝
+"""
+
 def draw_frame(game):
     os.system('cls' if os.name == 'nt' else 'clear')
 
     frame = copy.deepcopy(game.matrix)
+    border_char = "▓"
+    empty_cell = "·"
+    block_char = "■"
 
-    if game.player != None:
-        #print(f"Player: \n{game.player}")
+    # Add tetromino to frame
+    if game.player is not None:
         for point in game.player.shape:
-            if point[1] >= 0: # Tetrominos spawn above game matrix so don't render them until they enter the matrix
-                frame[point[1]][point[0]] = 'X'
+            if point[1] >= 0:  # Tetrominos spawn above game matrix so don't render them until they enter the matrix
+                frame[point[1]][point[0]] = block_char
 
+    # Title and score
+    print(TETRIS)
+    print(f"  Score: {game.score}   Speed: {game.speed:.2f}\n")
+
+    
+    # Top border
+    width = len(frame[0])
+    print("  " + border_char * (width + 2))
+
+    # Draw game matrix with side borders
     for y, line in enumerate(frame):
-        print(''.join(line), end="")
-        if y == 1:
-            print(" " * 4, f"Speed: {game.speed}")
-        elif y == 2:
-            print(" " * 4, f"Score: {game.score}")
+        print(f"  {border_char}{''.join(line).replace('.', empty_cell)}{border_char}", end="")
+
+        if y == 2:
+            print("   Controls:")
+        elif y == 3:
+            print("   Q - Quit")
         elif y == 4:
-            print(" " * 4, "Controls:")
+            print("   A - Move left")
         elif y == 5:
-            print(" " * 6, "Q - Quit")
+            print("   D - Move right")
         elif y == 6:
-            print(" " * 6, "A - Move left")
+            print("   L - Rotate right")
         elif y == 7:
-            print(" " * 6, "D - Move right")
-        elif y == 8:
-            print(" " * 6, "l - Rotate right")
-        elif y == 9:
-            print(" " * 6, "k - Rotate left")
-        elif y == 11:
-            print(" " * 4, f"Tetromino: {game.player.type}")
+            print("   K - Rotate left")
+        elif y == 9 and game.player:
+            print(f"   Tetromino: {game.player.type}")
         else:
             print()
 
+    # Bottom border
+    print("  " + border_char * (width + 2))
     print()
 
 def end_screen(score):
     os.system('cls' if os.name == 'nt' else 'clear')
-    print
-    print("Game over!")
-    print(f"Your score was: {score}")
+    print("Game Over!")
+    print(f"\n  Your final score: {score}\n")
