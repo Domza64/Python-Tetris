@@ -15,6 +15,7 @@ class Game:
 
     def __init__(self):
         self.player = Tetromino()
+        self.next = Tetromino()
         self.matrix = [['.' for _ in range(Game.WIDTH)] for _ in range(Game.HEIGTH)]
 
         self.should_quit = False
@@ -54,7 +55,8 @@ class Game:
             self.matrix[point[1]][point[0]] = 'X'
         
         self.check_rows()
-        self.player = Tetromino()
+        self.player = self.next
+        self.next = Tetromino()
         self.last_move_down_time = time.time()
 
     def game_loop(self):
@@ -72,6 +74,8 @@ class Game:
                 self.player.rotate_right(self.matrix)
             if key == "l":
                 self.player.rotate_left(self.matrix)
+            if key == "w":
+                self.player.drop(self)
             if key == "t":
                 self.score += 1
                 self.update_speed()

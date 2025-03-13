@@ -2,72 +2,21 @@ import copy
 from random import randint
 
 class Tetromino:
+    TETROMINOS = {
+        "C": [[1, -2], [1, -1], [2, -2], [2, -1]],
+        "L": [[0, -1], [0, -2], [0,  0], [1,  0]],
+        "L_2": [[3, -1], [3, -2], [3,  0], [2, 0]],
+        "T": [[1, -2], [0, -1], [1, -1], [2, -1]],
+        "I": [[6, -3], [6, -4], [6, -2], [6, -1]],
+        "S": [[0, -1], [1, -1], [1, -2], [2, -2]],
+        "Z": [[1, -1], [2, -1], [0, -2], [1, -2]]
+    }
+
     def __init__(self):
-        self.shape = []
-        n = randint(0, 6)
-        if n == 0:
-            self._tetromino_cube()
-            self.type = "cube"
-        elif n == 1:
-            self._tetromino_L()
-            self.type = "L"
-        elif n == 2:
-            self._tetromino_L_2()
-            self.type = "L_2"
-        elif n == 3:
-            self._tetromino_T()
-            self.type = "T"
-        elif n == 4:
-            self._tetromino_I()
-            self.type = "I"
-        elif n == 5:
-            self._tetromino_S()
-            self.type = "S"
-        elif n == 6:
-            self._tetromino_Z()
-            self.type = "Z"
-
-    def _tetromino_cube(self):
-        self.shape.append([1, -2])
-        self.shape.append([1, -1])
-        self.shape.append([2, -2])
-        self.shape.append([2, -1])
-
-    def _tetromino_L(self):
-        self.shape.append([0, -1])
-        self.shape.append([0, -2])
-        self.shape.append([0,  0])
-        self.shape.append([1,  0])
-
-    def _tetromino_L_2(self):
-        self.shape.append([1, -1])
-        self.shape.append([1, -2])
-        self.shape.append([1,  0])
-        self.shape.append([0,  0]) 
-
-    def _tetromino_T(self):
-        self.shape.append([1, -2])
-        self.shape.append([0, -1])
-        self.shape.append([1, -1])
-        self.shape.append([2, -1])
-
-    def _tetromino_I(self):
-        self.shape.append([6, -3])
-        self.shape.append([6, -4])
-        self.shape.append([6, -2])
-        self.shape.append([6, -1])
-
-    def _tetromino_Z(self):
-        self.shape.append([1, -1])
-        self.shape.append([2, -1])
-        self.shape.append([0, -2])
-        self.shape.append([1, -2])
-
-    def _tetromino_S(self):
-        self.shape.append([0, -1])
-        self.shape.append([1, -1])
-        self.shape.append([1, -2])
-        self.shape.append([2, -2])
+        n = randint(0, len(Tetromino.TETROMINOS) - 1)
+        key = list(Tetromino.TETROMINOS.keys())[n]
+        self.type = key
+        self.shape = copy.deepcopy(Tetromino.TETROMINOS[key])
 
     def can_move_to(self, game_matrix, new_pos):
         can_move_flag = True
@@ -110,6 +59,10 @@ class Tetromino:
             return True
         else:
             return False
+        
+    def drop(self, game):
+        while self.move_down(game):
+            pass
 
 
     def move_right(self, game_matrix):

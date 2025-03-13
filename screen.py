@@ -44,7 +44,7 @@ def draw_frame(game):
 
     # Title and score
     print(TETRIS)
-    print(f"  Score: {game.score}   Speed: {game.speed:.2f}\n")
+    print(f"  Score: {game.score}   Next: {game.next.type}\n") # Speed: {game.speed:.2f}
 
     
     # Top border
