@@ -12,9 +12,10 @@ class Tetromino:
         "Z": [[1, -1], [2, -1], [0, -2], [1, -2]]
     }
 
-    def __init__(self):
-        n = randint(0, len(Tetromino.TETROMINOS) - 1)
-        key = list(Tetromino.TETROMINOS.keys())[n]
+    def __init__(self, key=None):
+        if key is None:
+            n = randint(0, len(Tetromino.TETROMINOS) - 1)
+            key = list(Tetromino.TETROMINOS.keys())[n]
         self.type = key
         self.shape = copy.deepcopy(Tetromino.TETROMINOS[key])
 

@@ -11,10 +11,12 @@ class Game:
     WIDTH = 12
     HEIGTH = 20
     INITIAL_SPEED = 1.0
-    MIN_SPEED = 0.05
+    MIN_SPEED = 0.08
 
     def __init__(self):
+        self.can_store = True
         self.player = Tetromino()
+        self.storage = Tetromino()
         self.next = Tetromino()
         self.matrix = [['.' for _ in range(Game.WIDTH)] for _ in range(Game.HEIGTH)]
 
@@ -28,7 +30,6 @@ class Game:
         dr, _, _ = select.select([sys.stdin], [], [], 0)
         if dr:
             key = sys.stdin.read(1)
-            # Flushing input buffer makes it a lot better but still needs fixing if key is pressed and held for too long...
             termios.tcflush(sys.stdin, termios.TCIFLUSH)
             return key
         return None
@@ -46,9 +47,9 @@ class Game:
             self.update_speed()
 
     def update_speed(self):
-        if self.score >= 50:
+        if self.score >= 60:
             return
-        self.speed = Game.MIN_SPEED + (Game.INITIAL_SPEED - Game.MIN_SPEED) * ((50 - self.score) / 50)
+        self.speed = Game.MIN_SPEED + (Game.INITIAL_SPEED - Game.MIN_SPEED) * ((60 - self.score) / 60)
 
     def new_tetromino(self):
         for point in self.player.shape:
@@ -58,6 +59,7 @@ class Game:
         self.player = self.next
         self.next = Tetromino()
         self.last_move_down_time = time.time()
+        self.can_store = True
 
     def game_loop(self):
         key = self.check_input()
@@ -76,6 +78,12 @@ class Game:
                 self.player.rotate_left(self.matrix)
             if key == "w":
                 self.player.drop(self)
+            if key == "c":
+                if self.can_store:
+                    temp_tetromino = self.storage
+                    self.storage = Tetromino(self.player.type)
+                    self.player = temp_tetromino
+                    self.can_store = False
             if key == "t":
                 self.score += 1
                 self.update_speed()

@@ -29,6 +29,7 @@ Here are the controls to play the game:
 - **`W`**: Move the tetromino **drop down** (hard drop).
 - **`K`**: Rotate the tetromino **left**.
 - **`L`**: Rotate the tetromino **right**.
+- **`C`**: Swaps tetromino for one in storage **swap**.
 - **`Q`**: Quit the game.
 
 ---
@@ -55,10 +56,8 @@ Here are the controls to play the game:
 Here are some ideas for future improvements and features:
 
 - **High Score System**: Save and display the highest score achieved.
+- **Timer**: Display playtime.
 - **Pause Functionality**: Add a pause feature to temporarily stop the game.
-- **Tetromino Storage**: Allow the player to store one tetromino and swap it with the current one.
-  - Add a keybind (e.g., `C`) to replace the current tetromino with the stored one.
-  - Ensure the player can only swap once per tetromino spawn.
 
 ---
 

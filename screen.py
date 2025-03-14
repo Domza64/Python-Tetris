@@ -44,7 +44,8 @@ def draw_frame(game):
 
     # Title and score
     print(TETRIS)
-    print(f"  Score: {game.score}   Next: {game.next.type}\n") # Speed: {game.speed:.2f}
+    print(f"  Score: {game.score}\n") # Speed: {game.speed:.2f}
+    print(f"  Next: {game.next.type} | Storage: {game.storage.type}\n")
 
     
     # Top border
@@ -67,8 +68,12 @@ def draw_frame(game):
             print("   L - Rotate right")
         elif y == 7:
             print("   K - Rotate left")
-        elif y == 9 and game.player:
-            print(f"   Tetromino: {game.player.type}")
+        elif y == 8:
+            print("   S - Soft drop")
+        elif y == 9:
+            print("   W - Hard drop")
+        elif y == 10:
+            print("   C - Store Tetromino")
         else:
             print()
 
